@@ -44,83 +44,95 @@ class _HomePageState extends State<HomePage> {
             child: _header(),
           ),
           SizedBox(height: 10),
-          
           Container(
             padding: EdgeInsets.symmetric(horizontal: 16),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    Text('Update Terkini', style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold),),
-                    Column(
-                      children: <Widget>[
-                        Text(_dateString.toString(),style: TextStyle(fontWeight: FontWeight.bold),),
-                        Text(_timeString.toString(),style: TextStyle(fontWeight: FontWeight.bold),),
-                      ],
-                    )
-                  ],
+              children: <Widget>[
+                Text(
+                  'Update Terkini',
+                  style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
                 ),
+                Column(
+                  children: <Widget>[
+                    Text(
+                      _dateString.toString(),
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                    Text(
+                      _timeString.toString(),
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                  ],
+                )
+              ],
+            ),
           ),
-          SizedBox(height: 10,),
+          SizedBox(
+            height: 10,
+          ),
           Container(
             height: 150,
             child: ListView(
               scrollDirection: Axis.horizontal,
               padding: EdgeInsets.only(left: 35),
               physics: BouncingScrollPhysics(),
-
               children: <Widget>[
                 StreamBuilder(
-                     stream: _databaseReference.onValue,
-                     builder: (context, snapshot) {
-                       if (snapshot.hasData &&
-                           !snapshot.hasError &&
-                           snapshot.data.snapshot.value != null) {
-                         var _sungai = Sungai.fromJson(
-                             snapshot.data.snapshot.value['Sungai']);
-                         var _debit = Debit.fromJson(
-                             snapshot.data.snapshot.value['Debit']);
-                        
-                         return Row(
-                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                           children: <Widget>[
-                             _monitoring(_sungai.ketinggian.toString(),"Sungai", "Status - ${_sungai.status} ",),
-                            _monitoring(_debit.ketinggian.toString(), "Debit Tumpah" ,"Status - ${_debit.status} "),
-                           ],
-                         );
-                         //end
+                    stream: _databaseReference.onValue,
+                    builder: (context, snapshot) {
+                      if (snapshot.hasData &&
+                          !snapshot.hasError &&
+                          snapshot.data.snapshot.value != null) {
+                        var _sungai = Sungai.fromJson(
+                            snapshot.data.snapshot.value['Sungai']);
+                        var _debit = Debit.fromJson(
+                            snapshot.data.snapshot.value['Debit']);
 
-                       } else {}
-                       return Container();
-                     }),
-               
+                        return Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: <Widget>[
+                            _monitoring(
+                              _sungai.ketinggian.toString(),
+                              "Sungai",
+                              "Status - ${_sungai.status} ",
+                            ),
+                            _monitoring(_debit.ketinggian.toString(),
+                                "Debit Tumpah", "Status - ${_debit.status} "),
+                          ],
+                        );
+                        //end
 
+                      } else {}
+                      return Container();
+                    }),
               ],
             ),
           ),
-          SizedBox(height: 20,),
+          SizedBox(
+            height: 20,
+          ),
           RaisedButton(
-                          padding: EdgeInsets.symmetric(
-                              vertical: 16.0, horizontal: 130.0),
-                          shape: StadiumBorder(),
-                          textColor: Colors.black,
-                          color: Colors.white,
-                          child: Text("History Hari Ini"),
-                          onPressed: () {
-                            print("KLik");
-                          }),
-          
-                        SizedBox(height: 10,),
-                         RaisedButton(
-                        padding: EdgeInsets.symmetric(
-                            vertical: 16.0, horizontal: 120.0),
-                        shape: StadiumBorder(),
-                        textColor: Colors.black,
-                        color: Colors.white,
-                        child: Text("History Bulan Ini"),
-                        onPressed: () {
-                          print("KLik");
-                        })
-
+              padding: EdgeInsets.symmetric(vertical: 16.0, horizontal: 130.0),
+              shape: StadiumBorder(),
+              textColor: Colors.black,
+              color: Colors.white,
+              child: Text("History Hari Ini"),
+              onPressed: () {
+                print("Klik");
+              }),
+          SizedBox(
+            height: 10,
+          ),
+          RaisedButton(
+              padding: EdgeInsets.symmetric(vertical: 16.0, horizontal: 120.0),
+              shape: StadiumBorder(),
+              textColor: Colors.black,
+              color: Colors.white,
+              child: Text("History Bulan Ini"),
+              onPressed: () {
+                print("KLik");
+              })
         ],
       ),
     );
@@ -128,38 +140,36 @@ class _HomePageState extends State<HomePage> {
 
   Widget _header() {
     return Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              _appBar(),
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 16),
-                child: Text(
-                  'IBF',
-                  style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 32,
-                      color: Colors.white),
-                ),
-              ),
-              SizedBox(height: 15),
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 16),
-                child: Text(
-                  'Information Brebes Flood',
-                  style: TextStyle(color: Colors.white),
-                ),
-              ),
-              SizedBox(height: 15),
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 16),
-                child: Text(
-                  'Aplikasi yang untuk memonitoring\nkeadaan ketinggian di Sungai dan Debit Tumpah',
-                  style: TextStyle(color: Colors.white, height: 1.5),
-                ),
-              ),
-              SizedBox(height: 15),
-            ],
-          );
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        _appBar(),
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: 16),
+          child: Text(
+            'IBF',
+            style: TextStyle(
+                fontWeight: FontWeight.bold, fontSize: 32, color: Colors.white),
+          ),
+        ),
+        SizedBox(height: 15),
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: 16),
+          child: Text(
+            'Information Brebes Flood',
+            style: TextStyle(color: Colors.white),
+          ),
+        ),
+        SizedBox(height: 15),
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: 16),
+          child: Text(
+            'Aplikasi yang untuk memonitoring\nkeadaan ketinggian di Sungai dan Debit Tumpah',
+            style: TextStyle(color: Colors.white, height: 1.5),
+          ),
+        ),
+        SizedBox(height: 15),
+      ],
+    );
   }
 
   Widget _monitoring(String ketinggian, String status, String lokasi) {
@@ -187,18 +197,24 @@ class _HomePageState extends State<HomePage> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
-              Text(status, style: TextStyle(color: Colors.deepOrange, fontSize: 18),),
-              SizedBox(height: 5,),
-             
-              Text(ketinggian,style: TextStyle(color: Colors.deepOrange, fontSize: 50)),
-                            SizedBox(height: 15,),
-
-               Text(lokasi,style: TextStyle(color: Colors.deepOrange,fontSize: 15)),
-
+              Text(
+                status,
+                style: TextStyle(color: Colors.deepOrange, fontSize: 18),
+              ),
+              SizedBox(
+                height: 5,
+              ),
+              Text(ketinggian,
+                  style: TextStyle(color: Colors.deepOrange, fontSize: 50)),
+              SizedBox(
+                height: 15,
+              ),
+              Text(lokasi,
+                  style: TextStyle(color: Colors.deepOrange, fontSize: 15)),
             ],
           ),
           margin: EdgeInsets.only(right: 20),
-        ),        
+        ),
       ],
     );
   }
@@ -254,4 +270,3 @@ class _HomePageState extends State<HomePage> {
     });
   }
 }
-
