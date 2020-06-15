@@ -1,11 +1,11 @@
 //import 'package:firebase_database/firebase_database.dart';
-class Debit{
+class DebitM{
  final double ketinggian;
  final String status;
 
-Debit({ this.ketinggian, this.status });
+DebitM({ this.ketinggian, this.status });
 
- factory Debit.fromJson(Map<dynamic, dynamic> json) {
+ factory DebitM.fromJson(Map<dynamic, dynamic> json) {
     double parser(dynamic source) {
       try {
         return double.parse(source.toString());
@@ -14,7 +14,7 @@ Debit({ this.ketinggian, this.status });
       }
     }
 
-    return Debit(
+    return DebitM(
         ketinggian: parser(json['Ketinggian']),
         status: json['Status']);
   }

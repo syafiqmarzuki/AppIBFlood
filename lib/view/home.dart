@@ -79,6 +79,7 @@ class _HomePageState extends State<HomePage> {
               physics: BouncingScrollPhysics(),
               children: <Widget>[
                 StreamBuilder(
+
                     stream: _databaseReference.onValue,
                     builder: (context, snapshot) {
                       if (snapshot.hasData &&
@@ -88,7 +89,6 @@ class _HomePageState extends State<HomePage> {
                             snapshot.data.snapshot.value['Sungai']);
                         var _debit = Debit.fromJson(
                             snapshot.data.snapshot.value['Debit']);
-
                         return Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: <Widget>[
