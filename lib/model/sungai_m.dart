@@ -1,11 +1,11 @@
 //import 'package:firebase_database/firebase_database.dart';
-class Sungai{
+class SungaiM{
  final double ketinggian;
  final String status;
 
-Sungai({ this.ketinggian, this.status });
+SungaiM({ this.ketinggian, this.status });
 
- factory Sungai.fromJson(Map<dynamic, dynamic> json) {
+ factory SungaiM.fromJson(Map<dynamic, dynamic> json) {
     double parser(dynamic source) {
       try {
         return double.parse(source.toString());
@@ -14,7 +14,7 @@ Sungai({ this.ketinggian, this.status });
       }
     }
 
-    return Sungai(
+    return SungaiM(
         ketinggian: parser(json['Ketinggian']),
         status: json['Status']);
   }

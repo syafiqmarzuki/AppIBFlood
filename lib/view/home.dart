@@ -75,9 +75,9 @@ class _HomePageState extends State<HomePage> {
                        if (snapshot.hasData &&
                            !snapshot.hasError &&
                            snapshot.data.snapshot.value != null) {
-                         var _sungai = Sungai.fromJson(
+                         var _sungai = SungaiM.fromJson(
                              snapshot.data.snapshot.value['Sungai']);
-                         var _debit = Debit.fromJson(
+                         var _debit = DebitM.fromJson(
                              snapshot.data.snapshot.value['Debit']);
                         
                          return Row(
