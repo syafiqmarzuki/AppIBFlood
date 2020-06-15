@@ -7,7 +7,11 @@ class HistoryMonth extends StatefulWidget {
 class _HistoryMonthState extends State<HistoryMonth> {
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('History Bulan'),
+        backgroundColor: Color(0xFF11249F),
+      ),
       
     );
   }

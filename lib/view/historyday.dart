@@ -8,7 +8,12 @@ class HistoryDay extends StatefulWidget {
 class _HistoryDayState extends State<HistoryDay> {
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Hisotry Hari Ini'),
+        backgroundColor: Color(0xFF11249F),
+      ),
+      body: Column(),
       
     );
   }

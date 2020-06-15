@@ -11,6 +11,7 @@ class _NotifikasiState extends State<Notifikasi> {
      return Scaffold(
        appBar: AppBar(
         title: Text("Notifikasi"),
+        backgroundColor: Color(0xFF11249F),
         ),
         body: Container(
           child: ListView.builder(
