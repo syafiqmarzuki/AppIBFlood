@@ -138,8 +138,7 @@ class _HomePageState extends State<HomePage> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: <Widget>[
-                Flexible(
-                  child: Card(
+                Expanded(child: Card(
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Padding(
@@ -198,7 +197,7 @@ class _HomePageState extends State<HomePage> {
                     ),
                   ),
                 ),
-                Flexible(
+                Expanded(
                   child: Card(
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
