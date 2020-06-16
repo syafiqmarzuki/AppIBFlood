@@ -4,6 +4,4 @@ class HistoryM{
 
 
  HistoryM({ this.debit, this.date, this.sungai });
-
-
 }

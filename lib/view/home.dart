@@ -1,20 +1,25 @@
-//import 'dart:ffi';
-//import 'dart:ffi';
-
-import 'package:flutter/material.dart';
-import 'package:firebase_database/firebase_database.dart';
-import 'package:intl/intl.dart';
 import 'dart:async';
-import 'notifikasi.dart';
-import 'package:ibflood/model/debit.dart';
-import 'package:ibflood/model/sungai.dart';
 
-class HomePage extends StatefulWidget {
+import 'package:firebase_database/firebase_database.dart';
+import 'package:flutter/cupertino.dart';
+import "package:flutter/material.dart";
+import 'package:intl/intl.dart';
+import 'package:fancy_dialog/fancy_dialog.dart';
+
+
+
+import '../model/debit_m.dart';
+import '../model/sungai_m.dart';
+import 'historyday.dart';
+import 'historymonth.dart';
+import 'notifikasi.dart';
+
+class Home extends StatefulWidget {
   @override
-  _HomePageState createState() => _HomePageState();
+  _HomeState createState() => _HomeState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _HomeState extends State<Home> {
   String _timeString, _dateString;
   var _databaseReference = FirebaseDatabase().reference().child('Raspi3');
 
@@ -23,217 +28,9 @@ class _HomePageState extends State<HomePage> {
     _timeString = _formatTime(DateTime.now());
     _dateString = _formatDate(DateTime.now());
     Timer.periodic(Duration(seconds: 1), (Timer t) => _getTime());
+
     super.initState();
   }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      body: Column(
-        children: <Widget>[
-          Container(
-            decoration: BoxDecoration(
-              color: Color(0xFF11249F),
-              borderRadius: BorderRadius.only(
-                bottomLeft: Radius.circular(20),
-                bottomRight: Radius.circular(20),
-              ),
-            ),
-            padding: const EdgeInsets.only(top: 25),
-            child: _header(),
-          ),
-          SizedBox(height: 10),
-          
-          Container(
-            padding: EdgeInsets.symmetric(horizontal: 16),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    Text('Update Terkini', style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold),),
-                    Column(
-                      children: <Widget>[
-                        Text(_dateString.toString(),style: TextStyle(fontWeight: FontWeight.bold),),
-                        Text(_timeString.toString(),style: TextStyle(fontWeight: FontWeight.bold),),
-                      ],
-                    )
-                  ],
-                ),
-          ),
-          SizedBox(height: 10,),
-          Container(
-            height: 150,
-            child: ListView(
-              scrollDirection: Axis.horizontal,
-              padding: EdgeInsets.only(left: 35),
-              physics: BouncingScrollPhysics(),
-
-              children: <Widget>[
-                StreamBuilder(
-                     stream: _databaseReference.onValue,
-                     builder: (context, snapshot) {
-                       if (snapshot.hasData &&
-                           !snapshot.hasError &&
-                           snapshot.data.snapshot.value != null) {
-                         var _sungai = SungaiM.fromJson(
-                             snapshot.data.snapshot.value['Sungai']);
-                         var _debit = DebitM.fromJson(
-                             snapshot.data.snapshot.value['Debit']);
-                        
-                         return Row(
-                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                           children: <Widget>[
-                             _monitoring(_sungai.ketinggian.toString(),"Sungai", "Status - ${_sungai.status} ",),
-                            _monitoring(_debit.ketinggian.toString(), "Debit Tumpah" ,"Status - ${_debit.status} "),
-                           ],
-                         );
-                         //end
-
-                       } else {}
-                       return Container();
-                     }),
-               
-
-              ],
-            ),
-          ),
-          SizedBox(height: 20,),
-          RaisedButton(
-                          padding: EdgeInsets.symmetric(
-                              vertical: 16.0, horizontal: 130.0),
-                          shape: StadiumBorder(),
-                          textColor: Colors.black,
-                          color: Colors.white,
-                          child: Text("History Hari Ini"),
-                          onPressed: () {
-                            print("KLik");
-                          }),
-          
-                        SizedBox(height: 10,),
-                         RaisedButton(
-                        padding: EdgeInsets.symmetric(
-                            vertical: 16.0, horizontal: 120.0),
-                        shape: StadiumBorder(),
-                        textColor: Colors.black,
-                        color: Colors.white,
-                        child: Text("History Bulan Ini"),
-                        onPressed: () {
-                          print("KLik");
-                        })
-
-        ],
-      ),
-    );
-  }
-
-  Widget _header() {
-    return Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              _appBar(),
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 16),
-                child: Text(
-                  'IBF',
-                  style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 32,
-                      color: Colors.white),
-                ),
-              ),
-              SizedBox(height: 15),
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 16),
-                child: Text(
-                  'Information Brebes Flood',
-                  style: TextStyle(color: Colors.white),
-                ),
-              ),
-              SizedBox(height: 15),
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 16),
-                child: Text(
-                  'Aplikasi yang untuk memonitoring\nkeadaan ketinggian di Sungai dan Debit Tumpah',
-                  style: TextStyle(color: Colors.white, height: 1.5),
-                ),
-              ),
-              SizedBox(height: 15),
-            ],
-          );
-  }
-
-  Widget _monitoring(String ketinggian, String status, String lokasi) {
-    return Column(
-      children: <Widget>[
-        Container(
-          width: 130,
-          height: 150,
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.all(
-              Radius.circular(15),
-            ),
-            border: Border.all(color: Colors.white),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black26,
-                offset: Offset(1, 1),
-                spreadRadius: 1,
-                blurRadius: 3,
-              )
-            ],
-          ),
-          padding: EdgeInsets.only(top: 15),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: <Widget>[
-              Text(status, style: TextStyle(color: Colors.deepOrange, fontSize: 18),),
-              SizedBox(height: 5,),
-             
-              Text(ketinggian,style: TextStyle(color: Colors.deepOrange, fontSize: 50)),
-                            SizedBox(height: 15,),
-
-               Text(lokasi,style: TextStyle(color: Colors.deepOrange,fontSize: 15)),
-
-            ],
-          ),
-          margin: EdgeInsets.only(right: 20),
-        ),        
-      ],
-    );
-  }
-
-  Widget _appBar() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: <Widget>[
-        IconButton(
-          icon: Icon(
-            Icons.info,
-            color: Colors.white,
-          ),
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => Notifikasi()),
-            );
-          },
-        ),
-        Image.asset('assets/img/logokecil.png'),
-        IconButton(
-          icon: Icon(Icons.notifications, color: Colors.white),
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => Notifikasi()),
-            );
-          },
-        ),
-      ],
-    );
-  }
-
-  // setTanggal waktu sekarang
 
   String _formatDate(DateTime dateTime) {
     return DateFormat("EEEE - dd/MM/yyyy").format(dateTime);
@@ -253,5 +50,269 @@ class _HomePageState extends State<HomePage> {
       _dateString = formattedDate;
     });
   }
-}
 
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: SingleChildScrollView(
+        child: Column(
+          children: <Widget>[
+            Container(
+              decoration: BoxDecoration(
+                color: Color(0xFF11249F),
+                borderRadius: BorderRadius.only(
+                    bottomRight: Radius.circular(20),
+                    bottomLeft: Radius.circular(20)),
+              ),
+              padding: EdgeInsets.all(25),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      IconButton(
+                          icon: Icon(
+                            Icons.info,
+                            color: Colors.white,
+                          ),
+                          onPressed: () {
+                            showDialog(
+                            context: context, builder: (BuildContext context){
+                            return CupertinoAlertDialog(
+                              title: Text('Info Aplikasi'),
+                              content: Column(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: <Widget>[
+                                
+                                Image.asset('assets/img/logokecil.png'),
+                                Text('Versi 1.0')
+                              ],),
+                            );}
+                            );}
+                            
+                      ),
+                      Image.asset('assets/img/logokecil.png'),
+                      IconButton(
+                          icon: Icon(
+                            Icons.notifications,
+                            color: Colors.white,
+                          ),
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => Notifikasi()),
+                            );
+                          })
+                    ],
+                  ),
+                  Container(
+                      margin: EdgeInsets.only(top: 25),
+                      child: Text("IBF",
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold))),
+                  Text(
+                    "Information Brebes Flood",
+                    style: TextStyle(color: Colors.white),
+                  ),
+                  Text(
+                    "Monitoring ketinggian sungai dan debit tumpah di brebes.",
+                    style: TextStyle(color: Colors.white),
+                  )
+                ],
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Text(
+                    "Update terkini",
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                  Flexible(
+                      child: Column(
+                    children: <Widget>[
+                      Text(
+                        _dateString.toString(),
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                      Text(
+                        _timeString.toString(),
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      )
+                    ],
+                  ))
+                ],
+              ),
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: <Widget>[
+                Expanded(child: Card(
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: <Widget>[
+                            StreamBuilder(
+                                stream: _databaseReference.onValue,
+                                builder: (_, snapshot) {
+                                  if (snapshot.hasData &&
+                                      !snapshot.hasError &&
+                                      snapshot.data.snapshot.value != null) {
+                                    var _sungai = SungaiM.fromJson(
+                                        snapshot.data.snapshot.value['Sungai']);
+                                    return Column(
+                                      children: <Widget>[
+                                        Text(
+                                          "Sungai (cm)",
+                                          overflow: TextOverflow.clip,
+                                          maxLines: 2,
+                                          textAlign: TextAlign.center,
+                                          style: TextStyle(
+                                              color: Colors.red,
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                        Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Text(
+                                            _sungai.ketinggian.toString(),
+                                            overflow: TextOverflow.clip,
+                                            maxLines: 2,
+                                            style: TextStyle(
+                                                fontSize: 30,
+                                                color: Colors.red,
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                                        ),
+                                        Text(
+                                          "Status - ${_sungai.status}",
+                                          overflow: TextOverflow.clip,
+                                          maxLines: 2,
+                                          textAlign: TextAlign.center,
+                                          style: TextStyle(
+                                              color: Colors.red),
+                                        )
+                                      ],
+                                    );
+                                  } else {
+                                    return Text("~");
+                                  }
+                                }),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                Expanded(
+                  child: Card(
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: StreamBuilder(
+                          stream: _databaseReference.onValue,
+                          builder: (_, snapshot) {
+                            if (snapshot.hasData &&
+                                !snapshot.hasError &&
+                                snapshot.data.snapshot.value != null) {
+                              var _debit = DebitM.fromJson(
+                                  snapshot.data.snapshot.value['Debit']);
+
+                              return Column(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: <Widget>[
+                                  Text(
+                                    "Debit Tumpah (cm)",
+                                    overflow: TextOverflow.clip,
+                                    maxLines: 2,
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                        color: Colors.red,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Text(
+                                      _debit.ketinggian.toString(),
+                                      overflow: TextOverflow.clip,
+                                      maxLines: 2,
+                                      style: TextStyle(
+                                          fontSize: 30,
+                                          color: Colors.red,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                  ),
+                                  Text(
+                                    "Status - ${_debit.status}",
+                                    style: TextStyle(
+                                        color: Colors.red,),
+                                    textAlign: TextAlign.center,
+                                  )
+                                ],
+                              );
+                            } else {
+                              return Text("~");
+                            }
+                          },
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: RaisedButton(
+                  color: Colors.white,
+                  padding:
+                      EdgeInsets.symmetric(vertical: 16.0, horizontal: 120.0),
+                  shape: StadiumBorder(),
+                  textColor: Colors.black,
+                  child: Text(
+                    "History hari ini",
+                    textAlign: TextAlign.center,
+                  ),
+                  onPressed: () {
+                    Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => HistoryDay()),
+                            );
+                  }),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(bottom: 8),
+              child: RaisedButton(
+                  color: Colors.white,
+                  padding:
+                      EdgeInsets.symmetric(vertical: 16.0, horizontal: 120.0),
+                  shape: StadiumBorder(),
+                  textColor: Colors.black,
+                  child: Text(
+                    "History Bulan ini",
+                    textAlign: TextAlign.center,
+                  ),
+                  onPressed: () {
+                    Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => HistoryMonth()),
+                            );
+                  }),
+            )
+          ],
+        ),
+      ),
+    );
+  }
+}
