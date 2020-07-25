@@ -14,15 +14,17 @@ class _NotifikasiState extends State<Notifikasi> {
         backgroundColor: Color(0xFF11249F),
         ),
         body: Container(
-          child: ListView.builder(
-            itemCount: 20,
-            itemBuilder: (context,index){
-            return ListTile(
-              title: Text('35 CM'),
-              subtitle: Text('Kondisi akan ada datangya banjir kiriman'),
-              trailing: Text('12-12-2020 : 14:00'),
-              );
-            },
+          child: Column(
+            children: <Widget>[
+              Card(
+                child: ListTile(
+                  leading: Icon(Icons.report, color: Colors.red,),
+                  title: Text('12-06-2020 14:00', textAlign: TextAlign.right,),
+                  subtitle: Text('Kondisi ketinggian air pada sungai sudah mencapai 35 cm. Harap menyelamatkan diri.'),
+                 
+                ),
+              )
+            ],
           ), 
         )
     );

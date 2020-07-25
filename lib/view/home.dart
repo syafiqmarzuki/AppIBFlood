@@ -1,21 +1,15 @@
 import 'dart:async';
-//import 'dart:js';
 
 import 'package:firebase_database/firebase_database.dart';
-import 'package:flutter/cupertino.dart';
 import "package:flutter/material.dart";
 import 'package:intl/intl.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
-//import 'package:fancy_dialog/fancy_dialog.dart';
-
 
 
 import '../model/debit_m.dart';
 import '../model/sungai_m.dart';
+import 'notifikasi.dart';
 import 'historyday.dart';
 import 'historymonth.dart';
-import 'notifikasi.dart';
-import 'notifikasi_d.dart';
 class Home extends StatefulWidget {
   @override
   _HomeState createState() => _HomeState();
@@ -24,46 +18,15 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   String _timeString, _dateString;
   var _databaseReference = FirebaseDatabase().reference().child('Raspi3');
-  FirebaseMessaging fm = FirebaseMessaging();
-  
 
   @override
   void initState() {
-     _timeString = _formatTime(DateTime.now());
+    _timeString = _formatTime(DateTime.now());
     _dateString = _formatDate(DateTime.now());
     Timer.periodic(Duration(seconds: 1), (Timer t) => _getTime());
-   
-    //FCM///
-    fm.subscribeToTopic('Notif-Bahaya');
-    fm.getToken().then((value) => print('token: $value'));
-    fm.configure(
-      //ketika aplikasi di foreground
-      onMessage: (Map<String, dynamic> msg) async{
-     
-        print('On Message');
-      },
-      //aplikasi ketika backround
-      onResume: (Map<String, dynamic> msg) async{
-                print('On Message');
 
-      },
-      //ketika aplikasi tidak dijalanin
-      onLaunch: (Map<String, dynamic> msg) async{
-                print('On Message');
-
-      }
-    );
-    
-    
     super.initState();
   }
-
-
-
-
-  // _HomeState(){
-    
-  // }
 
   String _formatDate(DateTime dateTime) {
     return DateFormat("EEEE - dd/MM/yyyy").format(dateTime);
@@ -110,21 +73,16 @@ class _HomeState extends State<Home> {
                             color: Colors.white,
                           ),
                           onPressed: () {
-                            showDialog(
-                            context: context, builder: (BuildContext context){
-                            return CupertinoAlertDialog(
-                              title: Text('Info Aplikasi'),
-                              content: Column(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: <Widget>[
-                                
-                                Image.asset('assets/img/logokecil.png'),
-                                Text('Versi 1.0')
-                              ],),
-                            );}
-                            );}
-                            
-                      ),
+                            showDialog(context: context,
+                            builder: (BuildContext context){
+                              return AlertDialog(
+                                title: Text('Info Aplikasi', style: TextStyle(),),
+                                content: Column(children: <Widget>[
+                                  Image.asset('assets/img/logokecil.png'),
+                                  Text('verdsi 1')
+                                ],));
+                            });
+                          }),
                       Image.asset('assets/img/p40.png'),
                       IconButton(
                           icon: Icon(
@@ -135,7 +93,7 @@ class _HomeState extends State<Home> {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => NotifikasiD()),
+                                  builder: (context) => Notifikasi()),
                             );
                           })
                     ],
@@ -152,7 +110,7 @@ class _HomeState extends State<Home> {
                     style: TextStyle(color: Colors.white),
                   ),
                   Text(
-                    "Monitoring ketinggian sungai dan debit tumpah di Brebes.",
+                    "Aplikasi yang untuk memonitoring\nkeadaan ketinggian di Sungai dan Debit Tumpah.",
                     style: TextStyle(color: Colors.white),
                   )
                 ],
@@ -205,7 +163,7 @@ class _HomeState extends State<Home> {
                                     return Column(
                                       children: <Widget>[
                                         Text(
-                                          "Sungai (cm)",
+                                          "Sungai",
                                           overflow: TextOverflow.clip,
                                           maxLines: 2,
                                           textAlign: TextAlign.center,
@@ -264,7 +222,7 @@ class _HomeState extends State<Home> {
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: <Widget>[
                                   Text(
-                                    "Debit Tumpah (cm)",
+                                    "Debit tumpah",
                                     overflow: TextOverflow.clip,
                                     maxLines: 2,
                                     textAlign: TextAlign.center,
@@ -312,7 +270,7 @@ class _HomeState extends State<Home> {
                   shape: StadiumBorder(),
                   textColor: Colors.black,
                   child: Text(
-                    "Riwayat Hari Ini",
+                    "History hari ini",
                     textAlign: TextAlign.center,
                   ),
                   onPressed: () {
@@ -332,7 +290,7 @@ class _HomeState extends State<Home> {
                   shape: StadiumBorder(),
                   textColor: Colors.black,
                   child: Text(
-                    "Riwayat Bulan ini",
+                    "History bulan ini",
                     textAlign: TextAlign.center,
                   ),
                   onPressed: () {
