@@ -28,9 +28,14 @@ dependencies:
   fancy_dialog: ^1.0.1
   firebase_messaging: ^6.0.16
   http: ^0.12.1
+  # flutter_launcher_icons: ^0.7.5
 
 
 
+# flutter_icons:
+#   android: "launcher_icon"
+#   ios: true
+#   image_path: "assets/img/logob.png"
 
 dev_dependencies:
   flutter_test:
@@ -54,6 +59,7 @@ flutter:
     - assets/img/sungai.jpg
     - assets/img/logob.png
     - assets/img/logokabbrebes.png
+    - assets/img/p40.png
   #  - images/a_dot_burr.jpeg
   #  - images/a_dot_ham.jpeg
 

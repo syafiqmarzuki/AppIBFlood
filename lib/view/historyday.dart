@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'dart:async';
+import 'dart:convert';
 
 class HistoryDay extends StatefulWidget {
   @override
@@ -7,77 +9,28 @@ class HistoryDay extends StatefulWidget {
 }
 
 class _HistoryDayState extends State<HistoryDay> {
+  
+  Map data;
+  List monthData;
 
-  int current_step = 0;
+  Future getData() async{
+    http.Response response = await http.get('https://webibf.herokuapp.com/api/report/daynow');
+    data = json.decode(response.body);
+    setState(() {
+      monthData = data['data'];
+    });
+  }
 
-  List<Step> stepsHisotry = [
-    Step(
-      title: Text('01:00'),
-      content: Column(children: <Widget>[
-        Text('Ketinggian Sungai  = 14 CM'),
-        Text('Ketinggian Debit Tumpah  = 14 CM'),
-      ],),
-      isActive: true,
-    ),
-    Step(
-      title: Text('02:00'),
-      content: Column(children: <Widget>[
-        Text('Ketinggian Sungai  = 14 CM'),
-        Text('Ketinggian Debit Tumpah  = 14 CM'),
-      ],),
-      isActive: true,
-    ),
-    Step(
-      title: Text('03:00'),
-      content: Column(children: <Widget>[
-        Text('Ketinggian Sungai  = 14 CM'),
-        Text('Ketinggian Debit Tumpah  = 14 CM'),
-      ],),
-      isActive: true,
-    ),
-    Step(
-      title: Text('04:00'),
-      content: Column(children: <Widget>[
-        Text('Ketinggian Sungai  = 14 CM'),
-        Text('Ketinggian Debit Tumpah  = 14 CM'),
-      ],),
-      isActive: true,
-    ),
-    Step(
-      title: Text('05:00'),
-      content: Column(children: <Widget>[
-        Text('Ketinggian Sungai  = 14 CM'),
-        Text('Ketinggian Debit Tumpah  = 14 CM'),
-      ],),
-      isActive: true,
-    ),
-    Step(
-      title: Text('06:00'),
-      content: Column(children: <Widget>[
-        Text('Ketinggian Sungai  = 14 CM'),
-        Text('Ketinggian Debit Tumpah  = 14 CM'),
-      ],),
-      isActive: true,
-    ),
-    Step(
-      title: Text('07:00'),
-      content: Column(children: <Widget>[
-        Text('Ketinggian Sungai  = 14 CM'),
-        Text('Ketinggian Debit Tumpah  = 14 CM'),
-      ],),
-      isActive: true,
-    ),
-     Step(
-      title: Text('08:00'),
-      content: Column(children: <Widget>[
-        Text('Ketinggian Sungai  = 14 CM'),
-        Text('Ketinggian Debit Tumpah  = 14 CM'),
-      ],),
-      isActive: true,
-    ),
-   
-  ];
+  @override
+  void initState(){
+    super.initState();
+    getData();
+   // print(monthData);
 
+  }
+
+
+ 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -86,17 +39,49 @@ class _HistoryDayState extends State<HistoryDay> {
         backgroundColor: Color(0xFF11249F),
       ),
       body: Container(
-        child: Stepper(
-          currentStep: this.current_step,
-          type: StepperType.vertical,
-          steps: stepsHisotry,
-          onStepTapped: (stepsHisotry){
-            setState(() {
-              current_step = stepsHisotry;
-              
-            });
-          },
-        ),
+        child: ListView.builder(
+          itemCount: monthData == null ? 0 : monthData.length,
+          itemBuilder: (BuildContext context, int index){
+            return Card(
+              child: Column(
+                children: <Widget>[
+                  Container(
+                    color: Color(0xFF11249F),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        Padding(
+                          padding: const EdgeInsets.only(left: 5),
+                          child: Icon(Icons.av_timer, color: Colors.white,),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(right: 8),
+                          child: Text('09:02', style: TextStyle(color: Colors.white, fontSize: 15),),
+                        ),
+
+                      ],
+                    ),
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Text('Ketinggian Sungai - '),
+                        Text(monthData[index]['sungai']),
+                        Text(' cm'),
+                      ],
+                    ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Text('Ketinggian Debit Tumpah - '),
+                        Text(monthData[index]['debittumpah']),
+                        Text(' cm'),
+                      ],
+                    ),
+                ],
+              ),
+              );
+          })
       ),
       
     );
