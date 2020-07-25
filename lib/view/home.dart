@@ -4,12 +4,14 @@ import 'package:firebase_database/firebase_database.dart';
 import "package:flutter/material.dart";
 import 'package:intl/intl.dart';
 
-
 import '../model/debit_m.dart';
 import '../model/sungai_m.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
+
 import 'notifikasi.dart';
 import 'historyday.dart';
 import 'historymonth.dart';
+
 class Home extends StatefulWidget {
   @override
   _HomeState createState() => _HomeState();
@@ -73,15 +75,32 @@ class _HomeState extends State<Home> {
                             color: Colors.white,
                           ),
                           onPressed: () {
-                            showDialog(context: context,
-                            builder: (BuildContext context){
-                              return AlertDialog(
-                                title: Text('Info Aplikasi', style: TextStyle(),),
-                                content: Column(children: <Widget>[
-                                  Image.asset('assets/img/logokecil.png'),
-                                  Text('verdsi 1')
-                                ],));
-                            });
+                            showDialog(
+                                context: context,
+                                builder: (BuildContext context) => AlertDialog(
+                                        content: Container(
+                                      height: 100,
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: <Widget>[
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                                bottom: 10),
+                                            child: Text(
+                                              'Info Aplikasi',
+                                              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                                            ),
+                                          ),
+                                          Image.asset(
+                                              'assets/img/logokecil.png'),
+                                          Padding(
+                                            padding: const EdgeInsets.only(top: 5),
+                                            child: Text('Versi 1'),
+                                          )
+                                        ],
+                                      ),
+                                    )));
                           }),
                       Image.asset('assets/img/p40.png'),
                       IconButton(
@@ -144,7 +163,8 @@ class _HomeState extends State<Home> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: <Widget>[
-                Expanded(child: Card(
+                Expanded(
+                  child: Card(
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Padding(
@@ -188,8 +208,7 @@ class _HomeState extends State<Home> {
                                           overflow: TextOverflow.clip,
                                           maxLines: 2,
                                           textAlign: TextAlign.center,
-                                          style: TextStyle(
-                                              color: Colors.red),
+                                          style: TextStyle(color: Colors.red),
                                         )
                                       ],
                                     );
@@ -245,7 +264,8 @@ class _HomeState extends State<Home> {
                                   Text(
                                     "Status - ${_debit.status}",
                                     style: TextStyle(
-                                        color: Colors.red,),
+                                      color: Colors.red,
+                                    ),
                                     textAlign: TextAlign.center,
                                   )
                                 ],
@@ -275,10 +295,9 @@ class _HomeState extends State<Home> {
                   ),
                   onPressed: () {
                     Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => HistoryDay()),
-                            );
+                      context,
+                      MaterialPageRoute(builder: (context) => HistoryDay()),
+                    );
                   }),
             ),
             Padding(
@@ -295,10 +314,9 @@ class _HomeState extends State<Home> {
                   ),
                   onPressed: () {
                     Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => HistoryMonth()),
-                            );
+                      context,
+                      MaterialPageRoute(builder: (context) => HistoryMonth()),
+                    );
                   }),
             )
           ],
