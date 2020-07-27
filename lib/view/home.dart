@@ -1,12 +1,14 @@
 import 'dart:async';
 
 import 'package:firebase_database/firebase_database.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
+
 import "package:flutter/material.dart";
+import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl.dart';
 
 import '../model/debit_m.dart';
 import '../model/sungai_m.dart';
-import 'package:rflutter_alert/rflutter_alert.dart';
 
 import 'notifikasi.dart';
 import 'historyday.dart';
@@ -20,12 +22,61 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   String _timeString, _dateString;
   var _databaseReference = FirebaseDatabase().reference().child('Raspi3');
+  FirebaseMessaging fm = FirebaseMessaging();
 
   @override
   void initState() {
     _timeString = _formatTime(DateTime.now());
     _dateString = _formatDate(DateTime.now());
     Timer.periodic(Duration(seconds: 1), (Timer t) => _getTime());
+    //initializeDateFormatting('id', null);
+
+    fm.subscribeToTopic('Notif-Bahaya');
+    fm.configure(
+      //ketika aplikasi di foreground
+      onMessage: (Map<String, dynamic> msg) async {
+        showDialog(
+            context: context,
+            builder: (BuildContext context) => AlertDialog(
+                    content: Container(
+                  height: 100,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 10),
+                        child: Text(
+                          'Info Aplikasi',
+                          style: TextStyle(
+                              fontSize: 20, fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                      Image.asset('assets/img/logokecil.png'),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 5),
+                        child: Text('Versi 1'),
+                      )
+                    ],
+                  ),
+                )));
+      },
+      //kerika aplikasi berjalan di background
+      onResume: (Map<String, dynamic> msg) async {
+        print('Print Data berhasil');
+        onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => Notifikasi()),
+                            );
+                          };
+      },
+      //ketika aplikasi tidak berjalan
+      onLaunch: (Map<String, dynamic> msg) async {
+        print('Print Data berhasil');
+      },
+    );
+
 
     super.initState();
   }
@@ -89,13 +140,16 @@ class _HomeState extends State<Home> {
                                                 bottom: 10),
                                             child: Text(
                                               'Info Aplikasi',
-                                              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                                              style: TextStyle(
+                                                  fontSize: 20,
+                                                  fontWeight: FontWeight.bold),
                                             ),
                                           ),
                                           Image.asset(
                                               'assets/img/logokecil.png'),
                                           Padding(
-                                            padding: const EdgeInsets.only(top: 5),
+                                            padding:
+                                                const EdgeInsets.only(top: 5),
                                             child: Text('Versi 1'),
                                           )
                                         ],

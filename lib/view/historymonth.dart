@@ -16,9 +16,10 @@ class _HistoryMonthState extends State<HistoryMonth> {
   
   Map data;
   List monthData;
+  
 
   Future getData() async{
-    http.Response response = await http.get('https://webibf.herokuapp.com/api/report/monthnow');
+    http.Response response = await http.get('https://ibflood.herokuapp.com/api/report/monthnow');
     //http.Response response = await http.get('http://192.168.43.136/api/report/monthnow');
 
     data = json.decode(response.body);
@@ -27,18 +28,25 @@ class _HistoryMonthState extends State<HistoryMonth> {
     });
   }
 
-  
-
- 
+  var dateParse;
+  var formateddate;
+  String date;
+  String inputan;
+  DateTime datetime;
 
   @override
   void initState(){
     super.initState();
     getData();
-    dateFormat = DateFormat('d/M/yyyy');
+    //dateFormat =  DateFormat('yyyy-MM-d');
+    //datetime = DateTime('d-mm-YYYY');
+     //formattime = DateTime.parse('d-m-yyyy');
+    //formattime = DateTime();
+    //dateFormat.parse(inputan);
+    //dateParse = DateTime.parse(date);
+    //formateddate = "${dateParse.day}-${dateParse.month}-${dateParse.year}";
 
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -51,7 +59,7 @@ class _HistoryMonthState extends State<HistoryMonth> {
         child: ListView.builder(
           itemCount: monthData == null ? 0 : monthData.length,
           itemBuilder: (BuildContext context, int index){
-            //print(dateFormat.format(DateTime(monthData[index]['day'])));
+           
             return Card(
               child: Column(
                 children: <Widget>[
@@ -66,7 +74,7 @@ class _HistoryMonthState extends State<HistoryMonth> {
                         ),
                         Padding(
                           padding: const EdgeInsets.only(right: 8),
-                          child: Text(monthData[index]['day'], style: TextStyle(color: Colors.white, fontSize: 15),),
+                          child: Text(DateFormat('d-M-yyyy').format(DateTime.parse(monthData[index]['day'])), style: TextStyle(color: Colors.white, fontSize: 15),),
                         ),
 
                       ],

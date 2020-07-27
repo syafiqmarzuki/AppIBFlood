@@ -8,64 +8,6 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:463737117362:android:29f3f4373c564e32b287ab",
-        "android_client_info": {
-          "package_name": "com.example.firebaseibf"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "463737117362-8m4d40k8d5h348dqhugbjka9fv9mms59.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyDsMv7OCLvTQGfQGPxZiTY1AKWALixjuF8"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "463737117362-8m4d40k8d5h348dqhugbjka9fv9mms59.apps.googleusercontent.com",
-              "client_type": 3
-            }
-          ]
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:463737117362:android:6762100e3798049cb287ab",
-        "android_client_info": {
-          "package_name": "com.example.ibrebesf"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "463737117362-8m4d40k8d5h348dqhugbjka9fv9mms59.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyDsMv7OCLvTQGfQGPxZiTY1AKWALixjuF8"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "463737117362-8m4d40k8d5h348dqhugbjka9fv9mms59.apps.googleusercontent.com",
-              "client_type": 3
-            }
-          ]
-        }
-      }
-    },
-    {
-      "client_info": {
         "mobilesdk_app_id": "1:463737117362:android:79021ca363685cc3b287ab",
         "android_client_info": {
           "package_name": "com.syafiqm21.ibflood"

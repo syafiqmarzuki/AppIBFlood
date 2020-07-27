@@ -5,12 +5,12 @@ import 'dart:convert';
 import 'package:intl/intl.dart';
 
 
-class HistoryDay extends StatefulWidget {
+class HistoryDDay extends StatefulWidget {
   @override
-  _HistoryDayState createState() => _HistoryDayState();
+  _HistoryDDayState createState() => _HistoryDDayState();
 }
 
-class _HistoryDayState extends State<HistoryDay> {
+class _HistoryDDayState extends State<HistoryDDay> {
     DateFormat dateFormat;
 
   
@@ -46,6 +46,11 @@ class _HistoryDayState extends State<HistoryDay> {
         child: ListView.builder(
           itemCount: dayData == null ? 0 : dayData.length,
           itemBuilder: (BuildContext context, int index){
+            //print(DateFormat('H:m').format(DateTime.parse(monthData[index]['updated_at'])));
+            //print(DateFormat('d-M-yyyy').format(DateTime.parse(monthData[index]['created_at'])));
+            //print(monthData[index]['created_at']);
+            //print(monthData[index]['updated_at']);
+
             return Card(
               child: Column(
                 children: <Widget>[
@@ -60,7 +65,7 @@ class _HistoryDayState extends State<HistoryDay> {
                         ),
                         Padding(
                           padding: const EdgeInsets.only(right: 8),
-                          child: Text(DateFormat('HH:mm').format( DateTime.parse(dayData[index]['created_at'])), style: TextStyle(color: Colors.white, fontSize: 15),),
+                          child: Text(dayData[index]['created_at'], style: TextStyle(color: Colors.white, fontSize: 15),),
                         ),
 
                       ],
