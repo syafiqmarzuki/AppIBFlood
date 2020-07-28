@@ -8,7 +8,7 @@
          FlutterApplication and put your custom class here. -->
     <application
         android:name="io.flutter.app.FlutterApplication"
-        android:label="ibflood"
+        android:label="IBrebesFlood"
         android:icon="@mipmap/ic_launcher">
     
         <activity

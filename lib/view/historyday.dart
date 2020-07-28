@@ -39,7 +39,7 @@ class _HistoryDayState extends State<HistoryDay> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('History Hari Ini'),
+        title: Text('Riwayat Hari Ini'),
         backgroundColor: Color(0xFF11249F),
       ),
       body: Container(

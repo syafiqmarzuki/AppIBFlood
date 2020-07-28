@@ -4,7 +4,6 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 
 import "package:flutter/material.dart";
-import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl.dart';
 
 import '../model/debit_m.dart';
@@ -38,24 +37,33 @@ class _HomeState extends State<Home> {
         showDialog(
             context: context,
             builder: (BuildContext context) => AlertDialog(
+              backgroundColor: Colors.red,
                     content: Container(
-                  height: 100,
+                  height: 180,
+                  
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                       Padding(
                         padding: const EdgeInsets.only(bottom: 10),
                         child: Text(
-                          'Info Aplikasi',
+                          'Info Bahaya',
                           style: TextStyle(
                               fontSize: 20, fontWeight: FontWeight.bold),
                         ),
                       ),
-                      Image.asset('assets/img/logokecil.png'),
+                      Text('Ketinggian Sungai sudah mencapai ' +msg['data']['sungai'] + ' cm', style: TextStyle(color: Colors.white),),
+                      Text('Ketinggian Debit sudah mencapai ' +msg['data']['debit'] + ' cm', style: TextStyle(color: Colors.white)),
+                     
                       Padding(
                         padding: const EdgeInsets.only(top: 5),
-                        child: Text('Versi 1'),
-                      )
+                        child: RaisedButton(
+                          child: Text('Notifikasi'),
+                          onPressed: () {
+                            Navigator.push(context, MaterialPageRoute(builder: (context) => Notifikasi()),);
+                        },),
+                      ),
+
                     ],
                   ),
                 )));
@@ -63,13 +71,7 @@ class _HomeState extends State<Home> {
       //kerika aplikasi berjalan di background
       onResume: (Map<String, dynamic> msg) async {
         print('Print Data berhasil');
-        onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => Notifikasi()),
-                            );
-                          };
+        
       },
       //ketika aplikasi tidak berjalan
       onLaunch: (Map<String, dynamic> msg) async {
@@ -130,7 +132,9 @@ class _HomeState extends State<Home> {
                                 context: context,
                                 builder: (BuildContext context) => AlertDialog(
                                         content: Container(
+                                          
                                       height: 100,
+                                      
                                       child: Column(
                                         mainAxisAlignment:
                                             MainAxisAlignment.center,
@@ -150,7 +154,7 @@ class _HomeState extends State<Home> {
                                           Padding(
                                             padding:
                                                 const EdgeInsets.only(top: 5),
-                                            child: Text('Versi 1'),
+                                            child: Text('Versi 1.0'),
                                           )
                                         ],
                                       ),
@@ -183,7 +187,7 @@ class _HomeState extends State<Home> {
                     style: TextStyle(color: Colors.white),
                   ),
                   Text(
-                    "Aplikasi yang untuk memonitoring\nkeadaan ketinggian di Sungai dan Debit Tumpah.",
+                    "Monitoring ketinggian Sungai dan Debit Tumpah di Kabupaten Brebes.",
                     style: TextStyle(color: Colors.white),
                   )
                 ],
@@ -344,7 +348,7 @@ class _HomeState extends State<Home> {
                   shape: StadiumBorder(),
                   textColor: Colors.black,
                   child: Text(
-                    "History hari ini",
+                    "Riwayat Hari Ini",
                     textAlign: TextAlign.center,
                   ),
                   onPressed: () {
@@ -363,7 +367,7 @@ class _HomeState extends State<Home> {
                   shape: StadiumBorder(),
                   textColor: Colors.black,
                   child: Text(
-                    "History bulan ini",
+                    "Riwayat Bulan Ini",
                     textAlign: TextAlign.center,
                   ),
                   onPressed: () {

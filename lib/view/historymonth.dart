@@ -16,6 +16,7 @@ class _HistoryMonthState extends State<HistoryMonth> {
   
   Map data;
   List monthData;
+  double convert;
   
 
   Future getData() async{
@@ -59,7 +60,11 @@ class _HistoryMonthState extends State<HistoryMonth> {
         child: ListView.builder(
           itemCount: monthData == null ? 0 : monthData.length,
           itemBuilder: (BuildContext context, int index){
-           
+               // int y = int.tryParse(abc.toString().split('.')[1].substring(0,4));
+            //print(int.tryParse(monthData[index]['sungai']).toString().split('')[1].substring(0,2));
+          // print(monthData[index]['sungai']);
+          //convert = monthData[index]['sungai']
+          //print(monthData[index]['sungai'].toString());
             return Card(
               child: Column(
                 children: <Widget>[
