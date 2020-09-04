@@ -30,7 +30,10 @@ class _HomeState extends State<Home> {
     Timer.periodic(Duration(seconds: 1), (Timer t) => _getTime());
     //initializeDateFormatting('id', null);
 
-    fm.subscribeToTopic('Notif-Bahaya');
+    fm.subscribeToTopic('Notif-Sungai');
+    fm.subscribeToTopic('Notif-Banjir');
+    
+    
     fm.configure(
       //ketika aplikasi di foreground
       onMessage: (Map<String, dynamic> msg) async {
@@ -38,8 +41,8 @@ class _HomeState extends State<Home> {
             context: context,
             builder: (BuildContext context) => AlertDialog(
               backgroundColor: Colors.red,
-                    content: Container(
-                  height: 180,
+              content: Container(
+                  height: 250,
                   
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -47,13 +50,12 @@ class _HomeState extends State<Home> {
                       Padding(
                         padding: const EdgeInsets.only(bottom: 10),
                         child: Text(
-                          'Info Bahaya',
+                          msg["notification"]["title"].toString(),
                           style: TextStyle(
                               fontSize: 20, fontWeight: FontWeight.bold),
                         ),
                       ),
-                      Text('Ketinggian Sungai sudah mencapai ' +msg['data']['sungai'] + ' cm', style: TextStyle(color: Colors.white),),
-                      Text('Ketinggian Debit sudah mencapai ' +msg['data']['debit'] + ' cm', style: TextStyle(color: Colors.white)),
+                      Text(msg["notification"]["body"].toString(), style: TextStyle(color: Colors.white),),
                      
                       Padding(
                         padding: const EdgeInsets.only(top: 5),
